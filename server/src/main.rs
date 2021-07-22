@@ -8,12 +8,15 @@ use warp::Filter;
 
 #[tokio::main]
 async fn main() {
+    let filter = std::env::var("RUST_LOG").unwrap_or("warp=debug,dices=debug".to_string());
+    let redis_host = std::env::var("REDIS_HOST").unwrap_or("redis://127.0.0.1:6379/".to_string());
+
     tracing_subscriber::fmt()
-        .with_env_filter("warp=debug,dices=debug")
+        .with_env_filter(filter)
         .with_span_events(FmtSpan::CLOSE)
-        // .json()
+        .json()
         .init();
-    let redis = redis::Client::open("redis://127.0.0.1:6379/").unwrap();
+    let redis = redis::Client::open(redis_host).unwrap();
     let routes = routes(redis.clone())
         .recover(handlers::rejections::error_handler)
         .with(warp::trace::request());

@@ -16,7 +16,6 @@ fn dice(
     warp::path!(String)
         .and(with_db(redis))
         .and_then(|id: String, db: redis::Client| async move {
-            tracing::info!("ID {:?}", id);
             match dices::find_dice(db, id).await {
                 Ok(dice) => Ok(warp::reply::json(&dice)),
                 Err(e) => Err(warp::reject::custom(e)),
@@ -34,7 +33,6 @@ fn roll(
         .and(with_db(redis))
         .and(warp::body::json())
         .and_then(|db: redis::Client, body: Request| async move {
-            tracing::info!("ROLL {:?}", body);
             match dices::roll_dice(db, body.dice_type).await {
                 Ok(dice) => Ok(warp::reply::json(&dice)),
                 Err(e) => Err(warp::reject::custom(e)),
