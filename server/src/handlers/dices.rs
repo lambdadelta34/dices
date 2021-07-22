@@ -1,31 +1,37 @@
 use crate::models::dice;
 use crate::utils;
-use nanoid::nanoid;
 
-pub async fn find_dice(
-    redis: &mut redis::aio::Connection,
-    id: String,
-) -> Result<dice::Dice, utils::Error> {
-    match redis::cmd("GET").arg(&id).query_async(redis).await {
+pub async fn find_dice(redis: redis::Client, id: String) -> utils::Result<dice::Dice> {
+    let mut connection = redis
+        .get_tokio_connection()
+        .await
+        .map_err(|_e| utils::Error::GenericError)?;
+    match redis::cmd("GET")
+        .arg(&id)
+        .query_async(&mut connection)
+        .await
+    {
         Ok(dice) => Ok(dice),
-        Err(_) => Err(utils::Error::Error),
+        Err(_) => Err(utils::Error::GenericError),
     }
 }
 
 pub async fn roll_dice(
-    redis: &mut redis::aio::Connection,
-) -> Result<(String, dice::Dice), utils::Error> {
-    let key = nanoid!();
-    let dice = dice::Dice {
-        dice_type: dice::DiceType::D20,
-        number: 2,
-    };
+    redis: redis::Client,
+    dice_type: dice::DiceType,
+) -> utils::Result<dice::Dice> {
+    let mut connection = redis
+        .get_tokio_connection()
+        .await
+        .map_err(|_e| utils::Error::GenericError)?;
+
+    let dice = dice::Dice::create(dice_type);
     let _: () = redis::cmd("SETEX")
-        .arg(&key)
+        .arg(&dice.id)
         .arg(600)
         .arg(&dice)
-        .query_async(redis)
+        .query_async(&mut connection)
         .await
-        .unwrap();
-    Ok((key, dice))
+        .map_err(|_e| utils::Error::GenericError)?;
+    Ok(dice)
 }

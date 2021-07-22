@@ -1,8 +1,9 @@
 * TODO
-- add random to roll logic
-- client
-- enhance api with dice type param
-- error handling on server
-- logs
-- rollbar
-- specs
+- [X] add random to roll logic
+- [ ] client
+- [X] enhance api with dice type param
+- [X] error handling on server
+- [ ] server validations
+- [X] logs
+- [ ] rollbar
+- [ ] specs

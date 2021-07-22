@@ -1,10 +1,37 @@
+use nanoid::nanoid;
+use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use std::str::from_utf8;
 
+type ID = String;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Dice {
+    pub id: ID,
     pub dice_type: DiceType,
     pub number: u8,
+}
+
+impl Dice {
+    pub fn create(dice_type: DiceType) -> Self {
+        let id = nanoid!();
+        let mut rng = thread_rng();
+        let top_roll = match dice_type {
+            DiceType::D4 => 4,
+            DiceType::D6 => 6,
+            DiceType::D8 => 8,
+            DiceType::D10 => 10,
+            DiceType::D12 => 12,
+            DiceType::D20 => 20,
+            DiceType::D100 => 100,
+        };
+        let number: u8 = rng.gen_range(1..=top_roll);
+        Self {
+            id,
+            dice_type,
+            number,
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -26,7 +53,10 @@ impl redis::FromRedisValue for Dice {
                 let dice = serde_json::from_str(&data).unwrap();
                 Ok(dice)
             }
-            _ => Err(redis::RedisError::from((redis::ErrorKind::TypeError, "Response type is not compatible"))),
+            _ => Err(redis::RedisError::from((
+                redis::ErrorKind::TypeError,
+                "Response type is not compatible",
+            ))),
         }
     }
 }
