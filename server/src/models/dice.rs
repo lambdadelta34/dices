@@ -3,9 +3,9 @@ use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use std::str::from_utf8;
 
-type ID = String;
+pub type ID = String;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct Dice {
     pub id: ID,
     pub dice_type: DiceType,
@@ -34,7 +34,7 @@ impl Dice {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum DiceType {
     D4,
     D6,
