@@ -22,7 +22,7 @@ pub async fn error_handler(error: warp::Rejection) -> utils::WebResult<impl warp
         message = "Oops not found".into();
     }
 
-    let json = warp::reply::json(&utils::ErrorMessage { message: message });
+    let json = warp::reply::json(&utils::ErrorMessage { message });
 
     Ok(warp::reply::with_status(json, code))
 }

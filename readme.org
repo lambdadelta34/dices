@@ -1,10 +1,15 @@
-* TODO
+* DND dices
+just for fun
+** TODO:
 - [X] add random to roll logic
 - [ ] client
+- [ ] ops
 - [X] enhance api with dice type param
 - [X] error handling on server
 - [X] server validations
 - [X] logs
-- [-] rollbar
+- [ ] add bug tracking
 - [X] specs
-- [-] stub redis
+- [X] stub redis
+- [ ] make redis use a connection pool
+- [ ] cleanup utils

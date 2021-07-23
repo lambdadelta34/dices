@@ -8,8 +8,9 @@ use warp::Filter;
 
 #[tokio::main]
 async fn main() {
-    let filter = std::env::var("RUST_LOG").unwrap_or("warp=debug,dices=debug".to_string());
-    let redis_host = std::env::var("REDIS_HOST").unwrap_or("redis://127.0.0.1:6379/".to_string());
+    let filter = std::env::var("RUST_LOG").unwrap_or_else(|_| "warp=debug,dices=debug".into());
+    let redis_host =
+        std::env::var("REDIS_HOST").unwrap_or_else(|_| "redis://127.0.0.1:6379/".into());
 
     tracing_subscriber::fmt()
         .with_env_filter(filter)
