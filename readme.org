@@ -11,5 +11,6 @@ just for fun
 - [ ] add bug tracking
 - [X] specs
 - [X] stub redis
+- [ ] mock redis
 - [ ] make redis use a connection pool
 - [ ] cleanup utils
