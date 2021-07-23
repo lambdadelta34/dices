@@ -23,11 +23,11 @@ impl DBConnection for redis::aio::ConnectionManager {
 
     async fn set_dice(&self, dice: &models::dice::Dice) {
         let conn = &mut self.clone();
-        let _: () = redis::cmd("SETEX")
+        redis::cmd("SETEX")
             .arg(&dice.id)
             .arg(600)
             .arg(&dice)
-            .query_async(conn)
+            .query_async::<_, ()>(conn)
             .await
             .map_err(|_e| Error::GenericError)
             .unwrap();
@@ -59,11 +59,11 @@ impl DBConnection for redis::Client {
             .map_err(|_e| Error::GenericError)
             .unwrap();
 
-        let _: () = redis::cmd("SETEX")
+        redis::cmd("SETEX")
             .arg(&dice.id)
             .arg(600)
             .arg(&dice)
-            .query_async(&mut connection)
+            .query_async::<_, ()>(&mut connection)
             .await
             .map_err(|_e| Error::GenericError)
             .unwrap();

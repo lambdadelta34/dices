@@ -5,6 +5,7 @@ edition = "2018"
 
 [dependencies]
 async-trait = { version = "0.1" }
+config = { version = "0.11" }
 nanoid = { version = "0.4" }
 rand = { version = "0.8" }
 redis = { version = "*", features = ["tokio-comp", "connection-manager"] }

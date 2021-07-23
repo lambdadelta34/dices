@@ -15,3 +15,4 @@ just for fun
 - [X] make redis use a connection manager so it could reconnect
 - [ ] maybe make redis use a connection pool
 - [ ] cleanup utils
+- [ ] use config
