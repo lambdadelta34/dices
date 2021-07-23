@@ -14,9 +14,9 @@ pub async fn error_handler(error: warp::Rejection) -> utils::WebResult<impl warp
         };
         tracing::info!("dese {:?}", e);
     } else if let Some(e) = error.find::<utils::Error>() {
-        code = StatusCode::BAD_REQUEST;
-        message = "error".into();
-        tracing::info!("ue {:?}", e);
+        let result = handle_crate_error(e);
+        code = result.0;
+        message = result.1;
     } else {
         code = StatusCode::NOT_FOUND;
         message = "Oops not found".into();
@@ -25,4 +25,16 @@ pub async fn error_handler(error: warp::Rejection) -> utils::WebResult<impl warp
     let json = warp::reply::json(&utils::ErrorMessage { message: message });
 
     Ok(warp::reply::with_status(json, code))
+}
+
+fn handle_crate_error(e: &utils::Error) -> (StatusCode, String) {
+    tracing::info!("ue {:?}", e);
+    match e {
+        utils::Error::Validation(errors) => {
+            (StatusCode::BAD_REQUEST, format!("{:?}", errors.errors()))
+        },
+        utils::Error::GenericError => {
+            (StatusCode::BAD_REQUEST, "error".into())
+        }
+    }
 }

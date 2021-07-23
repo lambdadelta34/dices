@@ -1,6 +1,8 @@
 use crate::handlers::dices;
 use crate::models::dice;
+use crate::utils;
 use serde::{Deserialize, Serialize};
+use validator::Validate;
 use warp::Filter;
 
 pub fn routes(
@@ -13,7 +15,8 @@ pub fn routes(
 fn dice(
     redis: redis::Client,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!(String)
+    warp::get()
+        .and(warp::path::param())
         .and(with_db(redis))
         .and_then(|id: String, db: redis::Client| async move {
             match dices::find_dice(db, id).await {
@@ -28,12 +31,12 @@ fn dice(
 fn roll(
     redis: redis::Client,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("roll")
+    warp::path("roll")
         .and(warp::post())
         .and(with_db(redis))
-        .and(warp::body::json())
+        .and(utils::with_validated_json())
         .and_then(|db: redis::Client, body: Request| async move {
-            match dices::roll_dice(db, body.dice_type).await {
+            match dices::roll_dice(db, body.dice_type.expect("")).await {
                 Ok(dice) => Ok(warp::reply::json(&dice)),
                 Err(e) => Err(warp::reject::custom(e)),
             }
@@ -47,9 +50,10 @@ fn with_db(
     warp::any().map(move || db.clone())
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Validate)]
 struct Request {
-    pub dice_type: dice::DiceType,
+    #[validate(required)]
+    pub dice_type: Option<dice::DiceType>,
 }
 
 #[cfg(test)]
@@ -69,7 +73,7 @@ mod tests {
         let mut con = redis.get_connection().unwrap();
         let api = routes(redis);
         let dice = dice();
-        let _: () = con.set("id", dice).unwrap();
+        let _: () = con.set_ex("id", dice, 20).unwrap();
         let resp = request().method("GET").path("/id").reply(&api).await;
 
         assert_eq!(resp.status(), StatusCode::OK);
@@ -101,7 +105,7 @@ mod tests {
 
     fn roll_request() -> Request {
         Request {
-            dice_type: DiceType::D20,
+            dice_type: Some(DiceType::D20),
         }
     }
 }

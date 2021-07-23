@@ -3,7 +3,8 @@
 - [ ] client
 - [X] enhance api with dice type param
 - [X] error handling on server
-- [ ] server validations
+- [X] server validations
 - [X] logs
-- [ ] rollbar
-- [ ] specs
+- [-] rollbar
+- [X] specs
+- [-] stub redis
