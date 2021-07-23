@@ -12,5 +12,6 @@ just for fun
 - [X] specs
 - [X] stub redis
 - [ ] mock redis
-- [ ] make redis use a connection pool
+- [X] make redis use a connection manager so it could reconnect
+- [ ] maybe make redis use a connection pool
 - [ ] cleanup utils

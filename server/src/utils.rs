@@ -12,6 +12,29 @@ pub trait DBConnection: Send + Sync + Clone + 'static {
 }
 
 #[async_trait]
+impl DBConnection for redis::aio::ConnectionManager {
+    async fn get_dice(&self, id: String) -> Result<models::dice::Dice> {
+        let conn = &mut self.clone();
+        match redis::cmd("GET").arg(&id).query_async(conn).await {
+            Ok(dice) => Ok(dice),
+            Err(_) => Err(Error::GenericError),
+        }
+    }
+
+    async fn set_dice(&self, dice: &models::dice::Dice) {
+        let conn = &mut self.clone();
+        let _: () = redis::cmd("SETEX")
+            .arg(&dice.id)
+            .arg(600)
+            .arg(&dice)
+            .query_async(conn)
+            .await
+            .map_err(|_e| Error::GenericError)
+            .unwrap();
+    }
+}
+
+#[async_trait]
 impl DBConnection for redis::Client {
     async fn get_dice(&self, id: String) -> Result<models::dice::Dice> {
         let mut connection = self

@@ -7,7 +7,7 @@ edition = "2018"
 async-trait = { version = "0.1" }
 nanoid = { version = "0.4" }
 rand = { version = "0.8" }
-redis = { version = "*", features = ["tokio-comp"] }
+redis = { version = "*", features = ["tokio-comp", "connection-manager"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0" }
 tokio = { version = "1", features = ["full"] }
