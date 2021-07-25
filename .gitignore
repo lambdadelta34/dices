@@ -1,2 +1,4 @@
 /server/target
 /target
+*/node_modules
+/client/dist
