@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && npx wds --node-resolve --watch",
-    "build": "rm -rf dist && rollup -c -d dist"
+    "start_dev": "npm run build & tsc --build --watch --preserveWatchOutput & wds --node-resolve --watch",
+    "build": "rm -rf dist && rollup --waitForBundleInput -cwd dist"
   },
   "author": "",
   "license": "ISC",

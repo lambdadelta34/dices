@@ -2,3 +2,5 @@
 /target
 */node_modules
 /client/dist
+**/.DS_Store
+/client/.rollup.cache

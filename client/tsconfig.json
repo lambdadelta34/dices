@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "composite": true,
     "emitDeclarationOnly": true,
     "outDir": "./dist/ts",
     "allowJs": true,
+    "incremental": true,
     "sourceMap": true,
     "target": "ES2019",
     "lib": [
