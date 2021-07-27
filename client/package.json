@@ -1,14 +1,15 @@
 {
   "name": "dices",
   "version": "1.0.0",
-  "description": "",
+  "description": "frontend for dices",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_dev": "npm run build & tsc --build --watch --preserveWatchOutput & wds --node-resolve --watch",
-    "build": "rm -rf dist && rollup --waitForBundleInput -cwd dist"
+    "start_dev": "npm run build_watch & tsc --build --watch --preserveWatchOutput & wds --node-resolve --watch",
+    "build": "rm -rf dist && rollup -cd dist",
+    "build_watch": "rm -rf dist && rollup --waitForBundleInput -cwd dist"
   },
-  "author": "",
+  "author": "lambdadelta",
   "license": "ISC",
   "dependencies": {
     "three": "^0.130.1"
@@ -22,6 +23,9 @@
     "@web/dev-server": "^0.1.18",
     "@web/rollup-plugin-html": "^1.9.0",
     "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.3.5"
   }
