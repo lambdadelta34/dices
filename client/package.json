@@ -12,6 +12,9 @@
   "author": "lambdadelta",
   "license": "ISC",
   "dependencies": {
+    "@enable3d/ammo-physics": "^0.22.0",
+    "@enable3d/three-graphics": "^0.22.0",
+    "enable3d": "^0.22.0",
     "three": "^0.130.1"
   },
   "devDependencies": {

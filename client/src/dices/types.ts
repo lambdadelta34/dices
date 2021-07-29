@@ -1,6 +1,6 @@
 export interface Dice {
-    number: number;
-    diceType: DiceType;
+  number: number;
+  diceType: DiceType;
 }
 
 export enum DiceType {
