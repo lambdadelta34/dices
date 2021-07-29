@@ -12,21 +12,21 @@ import {
   createD20,
 } from "./components/dice";
 
-class Dices {
-  private renderer: THREE.Renderer;
-  private camera: THREE.PerspectiveCamera;
-  private scene: THREE.Scene;
-  private _dices: THREE.Mesh[];
+let renderer: THREE.Renderer;
+let camera: THREE.PerspectiveCamera;
+let scene: THREE.Scene;
+let _dices: THREE.Mesh[];
 
+class Dices {
   constructor(container: HTMLCanvasElement) {
-    this.renderer = new THREE.WebGLRenderer({
+    renderer = new THREE.WebGLRenderer({
       canvas: container,
       logarithmicDepthBuffer: true,
     });
-    this.camera = createCamera({ fov: 35, near: 1, far: 20 });
-    this.scene = createScene();
+    camera = createCamera({ fov: 35, near: 1, far: 20 });
+    scene = createScene();
     const light = createLight();
-    this.scene.add(light);
+    scene.add(light);
     const size = 0.3;
     const material = new THREE.MeshPhysicalMaterial({
       color: "teal",
@@ -40,26 +40,26 @@ class Dices {
     const d12 = createD12(material, size);
     const d20 = createD20(material, size);
     const d100 = createD10(material, size);
-    this._dices = [d4, d6, d8, d10, d12, d20, d100];
-    this._dices.forEach((dice) => this.scene.add(dice));
-    this._dices.forEach((dice, i) => (dice.position.x = -3 + i));
+    _dices = [d4, d6, d8, d10, d12, d20, d100];
+    _dices.forEach((dice) => scene.add(dice));
+    _dices.forEach((dice, i) => (dice.position.x = -3 + i));
   }
 
-  render() {
+  render = (): void => {
     const animate = (time: number) => {
       time *= 0.001;
-      this._dices.forEach((dice, i) => {
+      _dices.forEach((dice, i) => {
         const speed = 1 + i * 0.1;
         const rot = time * speed;
         dice.rotation.x = rot;
         dice.rotation.y = rot;
       });
 
-      render(this.renderer, this.scene, this.camera);
+      render(renderer, scene, camera);
       requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
-  }
+  };
 }
 
 export { Dices };
