@@ -6,30 +6,31 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_dev": "npm run build_watch & tsc --build --watch --preserveWatchOutput & wds --node-resolve --watch",
+    "start_dev_debug": "DEBUG=true npm run build_watch & tsc --build --watch --preserveWatchOutput & wds --node-resolve --watch",
     "build": "rm -rf dist && rollup -cd dist",
     "build_watch": "rm -rf dist && rollup --waitForBundleInput -cwd dist"
   },
   "author": "lambdadelta",
   "license": "ISC",
   "dependencies": {
-    "@enable3d/ammo-physics": "^0.22.0",
-    "@enable3d/three-graphics": "^0.22.0",
-    "enable3d": "^0.22.0",
+    "cannon-es": "^0.18.0",
     "three": "^0.130.1"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-typescript": "^8.2.3",
+    "@rollup/plugin-node-resolve": ">=13.0.4",
+    "@rollup/plugin-typescript": ">=8.2.5",
+    "@types/dat.gui": "^0.7.7",
     "@types/three": "^0.130.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "@web/dev-server": "^0.1.18",
-    "@web/rollup-plugin-html": "^1.9.0",
-    "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.3.5"
+    "@typescript-eslint/eslint-plugin": ">=4.29.2",
+    "@typescript-eslint/parser": ">=4.29.2",
+    "@web/dev-server": ">=0.1.21",
+    "@web/rollup-plugin-html": ">=1.9.1",
+    "eslint": ">=7.32.0",
+    "eslint-config-prettier": ">=8.3.0",
+    "eslint-plugin-prettier": ">=3.4.0",
+    "prettier": ">=2.3.2",
+    "rollup-plugin-inject-process-env": "^1.3.1",
+    "rollup-plugin-terser": ">=7.0.2",
+    "typescript": ">=4.3.5"
   }
 }

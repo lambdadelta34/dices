@@ -2,8 +2,22 @@
 just for fun
 ** TODO:
 - [X] add random to roll logic
-- [ ] client
+- [-] client
+  - [X] setup app
+  - [X] create 3d models
+  - [ ] create materials
+  - [ ] add throw physics
+  - [ ] throw with mouse
+  - [ ] make animation smoother
+    - [ ] make antialias not so laggy
+  - [ ] add dice bouncy physics
+  - [ ] add dices selection(raycasting)
+  - [ ] create "walls" for dices to bounce off
+  - [ ] how to roll?
+  - [ ] add bug tracking
 - [ ] ops
+  - [ ] pack app with nix
+  - [ ] create CI/CD
 - [X] enhance api with dice type param
 - [X] error handling on server
 - [X] server validations
@@ -14,5 +28,5 @@ just for fun
 - [ ] mock redis
 - [X] make redis use a connection manager so it could reconnect
 - [ ] maybe make redis use a connection pool
-- [ ] cleanup utils
+- [ ] cleanup utils file
 - [ ] use config

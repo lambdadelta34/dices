@@ -2,16 +2,25 @@
   "compilerOptions": {
     "declaration": true,
     "composite": true,
+    "moduleResolution": "node",
     "emitDeclarationOnly": true,
     "outDir": "./dist/ts",
     "incremental": true,
     "sourceMap": true,
-    "target": "ES2019",
+    "target": "ES2020",
     "lib": [
       "dom",
-      "ES2019"
-    ]
+      "ES2020"
+    ],
+    "paths": {
+      "three/examples/jsm/libs/dat.gui.module": [
+        "./node_modules/@types/dat.gui"
+      ]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/config.json"],
   "exclude": ["node_modules", "dist"]
 }
