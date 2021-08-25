@@ -1,5 +1,8 @@
 * DND dices
 just for fun
+
+UPD: lost interest for now. i dont want to do much frontend stuff and the only interesting thing left is to detect dice side and slightly play with physics. and i wanna do more rust and 3d stuff
+
 ** TODO:
 - [X] add random to roll logic
 - [-] client
